@@ -34,7 +34,7 @@ export const ModalHeader = styled.div`
 
 export const ModalBody = styled.div`
   overflow: auto;
-  padding: 10px 20px;
+  padding: 20px 20px;
   height: calc(100% - 80px);
 `;
 export const ModalFooter = styled.div`

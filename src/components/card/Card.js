@@ -6,15 +6,25 @@ import {
   StatusPart,
   UpdateButton,
 } from "./Card.styled";
-const Card = ({ title, description, status }) => {
+const Card = ({
+  title,
+  description,
+  status,
+  onToggleModal,
+  onDeleteTache,
+  id,
+}) => {
   return (
     <Container>
       <LeftPart>
         <h3>{title}:</h3> <p>{description}</p>
-        <a href="#"> Supprimer</a>
+        <a href="#" onClick={() => onDeleteTache(id)}>
+          {" "}
+          Supprimer
+        </a>
       </LeftPart>
       <RightPart>
-        <UpdateButton>
+        <UpdateButton onClick={() => onToggleModal(id)}>
           <MdEdit />
         </UpdateButton>
         <StatusPart>

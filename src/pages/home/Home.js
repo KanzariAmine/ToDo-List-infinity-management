@@ -19,17 +19,8 @@ const Home = (props) => {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    console.log(values);
     dispatch({ type: "ADD_TACHE", payload: values });
     setValues({ tacheName: "", tacheDescription: "" });
-  };
-
-  const deleteTache = (evt) => {
-    evt.preventDefault();
-    dispatch({
-      type: "REMOVE_TACHE",
-      payload: "6382717b-0cc6-429f-b3f5-c6fac2d97ba9",
-    });
   };
 
   return (
