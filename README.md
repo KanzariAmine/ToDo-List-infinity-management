@@ -3,7 +3,7 @@
 #### Step 1: Clone the repo
 
 ```sh
-$ git clone https://github.com/KanzariAmine/NodeJS-Authentication-JWT.git
+$ git clone https://github.com/KanzariAmine/ToDo-List-infinity-management.git
 ```
 
 #### Step 2: Install the dependencies
@@ -18,3 +18,8 @@ npm install or yarn install
 npm start or yarn start
 ```
 
+#### Step 4: Login With
+```bash
+Email: test@test.com
+Password: test
+```
