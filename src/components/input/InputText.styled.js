@@ -18,5 +18,11 @@ export const Input = styled.input`
   font-size: 14px;
   width: 100%;
   padding: 10px;
-  outline-color: #0d6efd;
+  outline-color: ${(props) => props.theme.COLORS.primary};
+`;
+
+export const Message = styled.p`
+  color: ${(props) => props.theme.COLORS.error};
+  font-size: 14px;
+  margin: 10px;
 `;

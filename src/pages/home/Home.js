@@ -1,57 +1,80 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
+import { Redirect } from "react-router-dom";
+// Component
 import InputText from "../../components/input/InputText";
 import Button from "../../components/button/Button";
+// Style
+import { Container, Form, Message } from "./Home.styled";
 import theme from "../../constants/theme";
-//Context
-import { TacheContext } from "../../context/tacheContext";
-//Style
-import { FormContainer, Form } from "./Home.styled";
-//Hooks
+// Hooks
 import { useForm } from "../../hooks/useForm";
-
-const Home = (props) => {
+//Context
+import { AuthContext } from "../../context/authContext";
+//Validation
+import userValidation from "../../validations/user.validation";
+const Register = (props) => {
+  const referer = props.location.state.referer || "/taches";
+  const { state, dispatch } = useContext(AuthContext);
+  const [errors, setErrors] = useState({});
+  const [isValid, setIsValid] = useState("");
   const [values, setValues, setHandleChange] = useForm({
-    tacheName: "",
-    tacheDescription: "",
+    email: "",
+    password: "",
   });
 
-  const { state, dispatch } = useContext(TacheContext);
-
+  // Check if the user all ready exist
+  // If not, display message user not found and check every field
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    dispatch({ type: "ADD_TACHE", payload: values });
-    setValues({ tacheName: "", tacheDescription: "" });
+    dispatch({ type: "IS_AUTHENTICATED", payload: values });
+    setValues({
+      email: "",
+      password: "",
+    });
+    const { errors, isValid } = userValidation(values);
+    setErrors(errors);
+    setIsValid(isValid);
   };
 
+  // Redirect to Taches page if State is true
+  if (state) {
+    return <Redirect to={referer} />;
+  }
   return (
-    <FormContainer>
-      <h2 style={{ marginBottom: "15px", marginTop: "0" }}>
-        Créer une nouvelle tache
-      </h2>
-      <Form onSubmit={handleSubmit}>
-        <InputText
-          title="Nom de la tache"
-          placeholder="Enter le nom de la tache..."
-          name="tacheName"
-          value={values.tacheName}
-          onChange={setHandleChange}
-        />
-        <InputText
-          title="Description de la tache en une ligne"
-          placeholder="Description..."
-          name="tacheDescription"
-          value={values.tacheDescription}
-          onChange={setHandleChange}
-        />
-        <Button
-          title="Ajouter la tache"
-          color={theme.COLORS.primary}
-          size="small"
-          style={{ marginTop: "20px" }}
-        />
-      </Form>
-    </FormContainer>
+    <>
+      <Container>
+        <Form onSubmit={handleSubmit}>
+          <InputText
+            title="Adresse e-mail"
+            placeholder="Entrer Adresse e-mail..."
+            name="email"
+            type="text"
+            value={values.email}
+            onChange={setHandleChange}
+            style={{ padding: "10px 0" }}
+            errors={errors.email}
+          />
+          <InputText
+            title="Mote de Passe"
+            placeholder="Entrer le mot de passe"
+            name="password"
+            type="password"
+            value={values.password}
+            onChange={setHandleChange}
+            style={{ padding: "10px 0" }}
+            errors={errors.password}
+          />
+          <Button
+            title="Soumettre"
+            color={theme.COLORS.primary}
+            size="small"
+            style={{ marginTop: "20px", width: "100%" }}
+          />
+        </Form>
+        {isValid && <Message>User Not Found</Message>}
+      </Container>
+    </>
   );
 };
 
-export default Home;
+export default Register;

@@ -4,8 +4,13 @@ import Card from "../../components/card/Card";
 import Modal from "../../components/modal/Modal";
 import Button from "../../components/button/Button";
 import InputText from "../../components/input/InputText";
-import { Container } from "./ListTache.styled";
 //Style
+import {
+  Container,
+  CheckboxContainer,
+  Checkbox,
+  CheckboxLabel,
+} from "./ListTache.styled";
 import theme from "../../constants/theme";
 //Context
 import { TacheContext } from "../../context/tacheContext";
@@ -33,14 +38,17 @@ const ListTache = () => {
   const [values, setValues, setHandleChange] = useForm({
     tacheName: "",
     tacheDescription: "",
+    status: false,
   });
 
+  // Open and close the modal
   const onToggleModal = (id) => {
     let tache = state.filter((tache) => tache.id === id);
     setValues(tache[0]);
     setShowModal(!showModal);
   };
 
+  //Delete a task
   const onDeleteTache = (id) => {
     dispatch({
       type: "REMOVE_TACHE",
@@ -48,10 +56,15 @@ const ListTache = () => {
     });
   };
 
+  //Update a Task
   const onUpdateTache = (evt) => {
     evt.preventDefault();
     dispatch({ type: "UPDATE_TACHE", payload: values });
     setShowModal(!showModal);
+  };
+
+  const onChangeStatus = () => {
+    setValues({ ...values, status: "Complétée" });
   };
   return (
     <>
@@ -89,6 +102,15 @@ const ListTache = () => {
               value={values.tacheDescription}
               onChange={setHandleChange}
             />
+            <CheckboxContainer>
+              <Checkbox
+                type="checkbox"
+                id="complélée"
+                name="complélée"
+                onChange={onChangeStatus}
+              />
+              <CheckboxLabel htmlFor="complélée">Complélée</CheckboxLabel>
+            </CheckboxContainer>
           </Modal.Body>
           <Modal.Footer>
             <Button

@@ -1,17 +1,26 @@
 import React from "react";
-import { Container, Lable, Input } from "./InputText.styled";
-const InputText = ({ title, placeholder, value, onChange, name }) => {
+import { Container, Lable, Input, Message } from "./InputText.styled";
+const InputText = ({
+  title,
+  placeholder,
+  value,
+  onChange,
+  name,
+  type,
+  errors,
+  ...rest
+}) => {
   return (
-    <Container>
+    <Container {...rest}>
       <Lable>{title}</Lable>
       <Input
-        type="text"
+        type={type}
         placeholder={placeholder}
         value={value}
         onChange={onChange}
         name={name}
       />
-      {/* <small>Error Message</small> */}
+      {errors && <Message>{errors}</Message>}
     </Container>
   );
 };
